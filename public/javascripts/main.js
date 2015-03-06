@@ -9,7 +9,7 @@ $(function(){
 	socket.on('user update', function(users){
 		var userList = $('<ul>')
 		users.forEach(function(user){
-			userList.append('<li>User')
+			userList.append('<li>' + user)
 		})
 		$('#users').html(userList)
 
@@ -23,8 +23,9 @@ $(function(){
 			.append('<p class="current">')
 	})
 	
-	socket.on('message', function(msg){
-		$('#room .current').html(msg)
+	socket.on('message', function(data){
+
+		$('#room .current').html(data.socket + ':' + data.msg)
 	})
 
 	// attach events

@@ -40,17 +40,18 @@ var users = []
 
 //If the client just connected
 io.sockets.on('connection', function(socket) {
-	users.push('user')
+	users.push(socket.id)
 	io.sockets.emit('user update', users)
 
 	socket.on('message', function(msg){
-		io.sockets.emit('message', msg)
+		io.sockets.emit('message', {msg: msg, socket: socket.id})
 	})
 	socket.on('end message', function(){
 		io.sockets.emit('end message')
 	})
 	socket.on('disconnect', function(){
-		users.pop()
+		// how do i get a reference to the disconnected user?
+		users.splice(users.indexOf(socket.id), 1)
 		io.sockets.emit('user update', users)
 	})
 });
