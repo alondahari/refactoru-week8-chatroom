@@ -6,23 +6,26 @@ $(function(){
 		console.log('connected!')
 		$('#room').append('<p class="current">')
 	})
-	socket.on('message', function(msg){
-		if (msg === '\n') {
-			$('#room')
-				.find('.current')
-				.removeClass('current')
-				.end()
-				.append('<p class="current">')
-		} else {
-			$('#room .current').html(msg)
-		}
+
+	socket.on('end message', function(){
+		$('#room')
+			.find('.current')
+			.removeClass('current')
+			.end()
+			.append('<p class="current">')
 	})
+	
+	socket.on('message', function(msg){
+		$('#room .current').html(msg)
+	})
+
 	// attach events
 	$('#message-input').on('keyup', function(e){
 		if (e.which === 13) {
-			socket.emit('message', '\n')
+			socket.emit('end message', '\n')
 			$(this).val('')
-		}
+		} else {
 			socket.emit('message', $(this).val())
+		}
 	})
 });

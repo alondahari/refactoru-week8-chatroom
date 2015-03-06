@@ -44,6 +44,9 @@ io.sockets.on('connection', function(socket) {
 	socket.on('message', function(msg){
 		io.sockets.emit('message', msg)
 	})
+	socket.on('end message', function(){
+		io.sockets.emit('end message')
+	})
 });
 
 server.listen(3000, function(){
