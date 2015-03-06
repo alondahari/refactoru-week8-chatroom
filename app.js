@@ -36,16 +36,22 @@ var server = http.createServer(app)
 //Start the web socket server
 var io = socketio.listen(server);
 
-var users = {}
+var users = []
 
 //If the client just connected
 io.sockets.on('connection', function(socket) {
-	console.log('User connected!')
+	users.push('user')
+	io.sockets.emit('user update', users)
+
 	socket.on('message', function(msg){
 		io.sockets.emit('message', msg)
 	})
 	socket.on('end message', function(){
 		io.sockets.emit('end message')
+	})
+	socket.on('disconnect', function(){
+		users.pop()
+		io.sockets.emit('user update', users)
 	})
 });
 

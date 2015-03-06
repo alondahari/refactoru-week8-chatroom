@@ -3,8 +3,16 @@ $(function(){
 	var socket = io.connect('http://localhost')
 	//define socket events
 	socket.on('connect', function(){
-		console.log('connected!')
 		$('#room').append('<p class="current">')
+	})
+
+	socket.on('user update', function(users){
+		var userList = $('<ul>')
+		users.forEach(function(user){
+			userList.append('<li>User')
+		})
+		$('#users').html(userList)
+
 	})
 
 	socket.on('end message', function(){
